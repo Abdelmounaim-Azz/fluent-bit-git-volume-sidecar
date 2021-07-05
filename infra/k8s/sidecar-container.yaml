@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sidecar-container
+  namespace: kube-system
+spec:
+  serviceAccountName: fluent-bit
+  volumes:
+    - name: log-file
+      gitRepo:
+        repository: https://github.com/Abdelmounaim-Azz/test.git
+        revision: main
+        directory: .
+  terminationGracePeriodSeconds: 10
+  containers:
+    - name: sidecar-container
+      image: busybox
+      command:
+        [
+          "sh",
+          "-c",
+          "while true; do cat /var/log/test.log /var/log/error.log; sleep 30; done",
+        ]
+      volumeMounts:
+        - name: log-file
+          mountPath: /var/log/

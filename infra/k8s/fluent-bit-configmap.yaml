@@ -12,7 +12,8 @@ data:
     [INPUT]
         Name           tail
         Tag            kube.*
-        Path           /var/log/containers/sidecar-container/*.log
+        Path           /var/log/containers/*.log
+        DB             /var/log/flb_kube.db
         Mem_Buf_Limit  5MB
     [OUTPUT]
         Name   stdout
